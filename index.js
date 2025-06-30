@@ -60,6 +60,7 @@ function Query(queryObj) {
   this.sortBy = queryObj.sortBy || "";
   this.limit = Number(queryObj.limit) || 0;
   this.page = Number(queryObj.page) || 0;
+  this.noCache = queryObj.noCache === 'true';
 }
 
 // Query prototype methods
@@ -157,10 +158,12 @@ Query.prototype.getJobs = async function () {
   try {
     // Check cache first
     const cacheKey = this.url(0);
-    const cachedJobs = cache.get(cacheKey);
-    if (cachedJobs) {
-      console.log("Returning cached results");
-      return cachedJobs;
+    if (!this.noCache) {
+        const cachedJobs = cache.get(cacheKey);
+        if (cachedJobs) {
+            console.log("Returning cached results");
+            return cachedJobs;
+        }
     }
 
     while (hasMore) {
