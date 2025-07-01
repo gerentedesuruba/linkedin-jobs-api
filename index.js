@@ -60,7 +60,7 @@ function Query(queryObj) {
   this.sortBy = queryObj.sortBy || "";
   this.limit = Number(queryObj.limit) || 0;
   this.page = Number(queryObj.page) || 0;
-  this.noCache = queryObj.noCache === 'true';
+  this.noCache = queryObj.noCache || false;
 }
 
 // Query prototype methods
