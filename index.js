@@ -66,9 +66,9 @@ function Query(queryObj) {
 // Query prototype methods
 Query.prototype.getDateSincePosted = function () {
   const dateRange = {
-    "past month": "r2592000",
-    "past week": "r604800",
-    "24hr": "r86400",
+    "past_month": "r2592000",
+    "past_week": "r604800",
+    "past_24_hours": "r86400",
   };
   return dateRange[this.dateSincePosted.toLowerCase()] || "";
 };
@@ -77,8 +77,10 @@ Query.prototype.getExperienceLevel = function () {
   const experienceRange = {
     internship: "1",
     "entry level": "2",
+    "entry_level": "2",
     associate: "3",
     senior: "4",
+    "mid_senior_level": "4",
     director: "5",
     executive: "6",
   };
@@ -95,6 +97,8 @@ Query.prototype.getJobType = function () {
     temporary: "T",
     volunteer: "V",
     internship: "I",
+    "full_time": "F",
+    "part_time": "P",
   };
   return jobTypeRange[this.jobType.toLowerCase()] || "";
 };
@@ -103,6 +107,7 @@ Query.prototype.getRemoteFilter = function () {
   const remoteFilterRange = {
     "on-site": "1",
     "on site": "1",
+    "on_site": "1",
     remote: "2",
     hybrid: "3",
   };
@@ -141,8 +146,11 @@ Query.prototype.url = function (start) {
 
   params.append("start", start + this.getPage());
 
-  if (this.sortBy === "recent") params.append("sortBy", "DD");
-  else if (this.sortBy === "relevant") params.append("sortBy", "R");
+  if (this.sortBy === "recent") {
+    params.append("sortBy", "recent");
+  } else if (this.sortBy === "relevant") {
+    params.append("sortBy", "relevant");
+  }
 
   return query + params.toString();
 };
